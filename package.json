@@ -1,0 +1,16 @@
+{
+  "name": "nodejwtauth",
+  "version": "1.0.0",
+  "description": "node and jwt authentication",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lkb",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "nodemon": "^1.17.3"
+  }
+}
