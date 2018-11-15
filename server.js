@@ -1,9 +1,17 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 const app = express();
 const secretKey = 'kdjkjkei90ew0er0';
 const expiryTime = 1000 * 10 + 's';
+
+
+app.use('/static', express.static(path.join(__dirname, 'public')))
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname+ '/index.html')
+})
 
 app.get('/api', (req, res) => {
     res.json({
