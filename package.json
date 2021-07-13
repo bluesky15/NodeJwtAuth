@@ -2,13 +2,13 @@
   "name": "nodejwtauth",
   "version": "1.0.0",
   "description": "node and jwt authentication",
-  "main": "index.js",
+  "main": "server.js",
   "engines": {
-    "node": "v16.3.0",
-    "npm": "7.17.0"
+    "node": "v16.4.2",
+    "npm": "7.18.1"
   },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "author": "lkb",
   "license": "MIT",
@@ -19,6 +19,6 @@
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.12"
   }
 }
