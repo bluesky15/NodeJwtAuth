@@ -1,20 +1,25 @@
 {
-  "name": "nodejwtauth",
+  "name": "auth_production",
   "version": "1.0.0",
   "description": "node and jwt authentication",
-  "main": "index.js",
-  "engines":{
-    "node": "8.1.1",
-    "npm" : "5.0.3"
+  "main": "app.js",
+  "engines": {
+    "node": "16.4.2",
+    "npm": "7.18.1"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon app.js"
   },
   "author": "lkb",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.16.3",
+    "http-errors": "^1.7.2",
     "jsonwebtoken": "^8.2.1",
-    "nodemon": "^1.17.3"
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }

@@ -1,25 +1,32 @@
 const express = require('express');
+const morgan = require('morgan');
+const createError = require('http-errors');
+require('dotenv').config()
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const AuthRoute = require('./Routes/Auth.route')
 
-const app = express();
 const secretKey = 'kdjkjkei90ew0er0';
 const expiryTime = 1000 * 10 + 's';
 
+const app = express();
+
+app.use(morgan('dev'))
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname+ '/index.html')
+app.get('/', async (req, res) => {
+    res.sendFile(__dirname + '/index.html')
 })
+app.use('/auth', AuthRoute)
 
-app.get('/api', (req, res) => {
+app.get('/api', async (req, res) => {
     res.json({
         message: 'welcome to the API'
     });
 })
 
-app.post('/api/posts', verifyToken, (req, res) => {
+app.post('/api/posts', verifyToken, async (req, res) => {
     jwt.verify(req.token, secretKey, (err, authData) => {
         if (err) {
             res.sendStatus(403);
@@ -34,7 +41,7 @@ app.post('/api/posts', verifyToken, (req, res) => {
 
 });
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
     // Mock user
     const user = {
         id: 1,
@@ -43,12 +50,28 @@ app.post('/api/login', (req, res) => {
     }
     jwt.sign({
         user
-    }, secretKey, {expiresIn: expiryTime}, (err, token) => {
+    }, secretKey, { expiresIn: expiryTime }, (err, token) => {
         res.json({
             token
         });
     });
 });
+
+app.use(async (req, res, next) => {
+    // const error = new Error("not found")
+    // error.status = 404
+     next(createError.NotFound())
+    
+})
+app.use((err,req,res,next)=>{
+    res.status(err.status|| 500)
+    res.send({
+        error:{
+            status:err.status || 500,
+            message: err.message
+        },
+    })
+})
 
 function verifyToken(req, res, next) {
     // get auth header value
@@ -68,4 +91,4 @@ function verifyToken(req, res, next) {
     }
 }
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('Server started on port '+PORT));
+app.listen(PORT, () => console.log('Server started on port ' + PORT));
