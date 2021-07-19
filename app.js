@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const createError = require('http-errors');
 require('dotenv').config()
+require('./helpers/init_mongodb')
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const AuthRoute = require('./Routes/Auth.route')
@@ -11,6 +12,8 @@ const expiryTime = 1000 * 10 + 's';
 
 const app = express();
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
@@ -60,14 +63,14 @@ app.post('/api/login', async (req, res) => {
 app.use(async (req, res, next) => {
     // const error = new Error("not found")
     // error.status = 404
-     next(createError.NotFound())
-    
+    next(createError.NotFound())
+
 })
-app.use((err,req,res,next)=>{
-    res.status(err.status|| 500)
+app.use((err, req, res, next) => {
+    res.status(err.status || 500)
     res.send({
-        error:{
-            status:err.status || 500,
+        error: {
+            status: err.status || 500,
             message: err.message
         },
     })
