@@ -9,7 +9,7 @@ const AuthRoute = require('./Routes/Auth.route')
 
 const secretKey = 'kdjkjkei90ew0er0';
 const expiryTime = 1000 * 10 + 's';
-
+const {verifyAccessToken} = require('./helpers/jwt_helper')
 const app = express();
 
 app.use(express.json())
@@ -18,7 +18,8 @@ app.use(morgan('dev'))
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
-app.get('/', async (req, res) => {
+app.get('/',verifyAccessToken, async (req, res) => {
+    console.log(req.headers['authorization'])
     res.sendFile(__dirname + '/index.html')
 })
 app.use('/auth', AuthRoute)
